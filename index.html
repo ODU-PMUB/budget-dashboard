@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard งบประมาณ | สำนักงบประมาณ</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Kanit', sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+
+  .logo-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .org-name {
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  h1 {
+    color: #f8fafc;
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 760px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.07);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-1::before { background: linear-gradient(135deg, rgba(59,130,246,0.08), transparent); }
+  .card-2::before { background: linear-gradient(135deg, rgba(16,185,129,0.08), transparent); }
+
+  .card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+
+  .card-1 .card-icon { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
+  .card-2 .card-icon { background: linear-gradient(135deg, #059669, #10b981); }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .card-1 .card-tag { background: rgba(59,130,246,0.15); color: #93c5fd; }
+  .card-2 .card-tag { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+
+  .card-title {
+    color: #f1f5f9;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .card-desc {
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .tag {
+    background: rgba(255,255,255,0.06);
+    color: #cbd5e1;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .card-1 .btn { background: linear-gradient(135deg, #1d4ed8, #3b82f6); color: #fff; }
+  .card-2 .btn { background: linear-gradient(135deg, #059669, #10b981); color: #fff; }
+
+  .btn:hover { opacity: 0.9; transform: scale(1.01); }
+
+  .btn-arrow { font-size: 16px; }
+
+  .footer {
+    margin-top: 40px;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 300;
+    text-align: center;
+  }
+
+  .footer span { color: #64748b; }
+
+  /* divider */
+  .divider {
+    width: 40px;
+    height: 3px;
+    border-radius: 2px;
+    margin: 12px 0 16px;
+  }
+  .card-1 .divider { background: linear-gradient(90deg, #3b82f6, transparent); }
+  .card-2 .divider { background: linear-gradient(90deg, #10b981, transparent); }
+
+  @media (max-width: 480px) {
+    .cards { grid-template-columns: 1fr; }
+    .card { padding: 22px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="logo-bar">
+  <div class="logo-icon">📊</div>
+</div>
+<div class="org-name">สำนักงบประมาณ · บพค</div>
+
+<h1>Dashboard งบประมาณแผ่นดิน</h1>
+<p class="subtitle">ข้อมูลงบประมาณตามยุทธศาสตร์ชาติ ปีงบประมาณ 2562–2568</p>
+
+<div class="cards">
+
+  <!-- Card 1 -->
+  <a class="card card-1" href="6ยุทธศาสตร์_TrendDashboard.html">
+    <div class="card-icon">🎯</div>
+    <div class="card-tag">ภาพรวมทุกยุทธศาสตร์</div>
+    <div class="divider"></div>
+    <div class="card-title">Dashboard 6 ยุทธศาสตร์ชาติ</div>
+    <div class="card-desc">
+      วิเคราะห์งบประมาณทั้ง 6 ยุทธศาสตร์ แนวโน้ม 7 ปี เปรียบเทียบรายยุทธศาสตร์ และ YoY Growth
+    </div>
+    <div class="tags">
+      <span class="tag">ย.1–ย.6</span>
+      <span class="tag">7 ปีย้อนหลัง</span>
+      <span class="tag">แนวโน้ม</span>
+      <span class="tag">ภาพรวม 2568</span>
+    </div>
+    <div class="btn">เปิด Dashboard <span class="btn-arrow">→</span></div>
+  </a>
+
+  <!-- Card 2 -->
+  <a class="card card-2" href="ยุทธศาสตร์3_HR_CrossStrategy_Dashboard.html">
+    <div class="card-icon">👥</div>
+    <div class="card-tag">เจาะลึกด้านทุนมนุษย์</div>
+    <div class="divider"></div>
+    <div class="card-title">Dashboard ยุทธศาสตร์ที่ 3<br>การพัฒนาและเสริมสร้างศักยภาพทรัพยากรมนุษย์</div>
+    <div class="card-desc">
+      วิเคราะห์เชิงลึกงบประมาณด้าน HR พร้อมการเปรียบเทียบข้ามยุทธศาสตร์และแนวโน้ม 8 ปี
+    </div>
+    <div class="tags">
+      <span class="tag">ยุทธศาสตร์ที่ 3</span>
+      <span class="tag">8 ปีย้อนหลัง</span>
+      <span class="tag">Cross-Strategy</span>
+      <span class="tag">HR Focus</span>
+    </div>
+    <div class="btn">เปิด Dashboard <span class="btn-arrow">→</span></div>
+  </a>
+
+</div>
+
+<div class="footer">
+  ข้อมูลจาก สำนักงบประมาณ (bb.go.th) · ฉบับที่ 4 พ.ร.บ. งบประมาณรายจ่าย<br>
+  <span>จัดทำโดย บพค · อัปเดตล่าสุด พฤษภาคม 2568</span>
+</div>
+
+</body>
+</html>
